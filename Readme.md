@@ -11,6 +11,8 @@ Basic Features:
 - Basic roles: Dev and Operations
 - Audit Log
 
+Bonus Features:
+- Get Kubernetes credentials (Kubeconf)
 ### References:
 
 <Paste links here>
