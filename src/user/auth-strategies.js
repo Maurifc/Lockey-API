@@ -2,6 +2,7 @@ const passport = require('passport')
 const BearerStrategy = require('passport-http-bearer')
 const LocalStrategy = require('passport-local')
 const User = require('./User')
+const tokenManager = require('./token')
 
 passport.use(new LocalStrategy(async (username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
@@ -18,4 +19,17 @@ passport.use(new LocalStrategy(async (username, password, done) => {
             done(null, user) // return done(null, user) when login succeeds
         })
     })
+}))
+
+passport.use( new BearerStrategy( (token, done) => {
+    try {
+        const user = tokenManager.verify(token)
+
+        if(!user)
+            return done(null, false)
+
+        done(null, user)
+    } catch (error) {
+        done(error, null)
+    }
 }))

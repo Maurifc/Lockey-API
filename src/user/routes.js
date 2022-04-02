@@ -9,5 +9,8 @@ router
     .put('/user/:id', UserController.update)
     .delete('/user/:id', UserController.delete)
     .post('/user/login', passport.authenticate('local', { session: false }), UserController.login)
+    .post('/user/dummy', passport.authenticate('bearer', { session: false }), (req, res) => {
+        res.send('just a test')
+    })
 
 module.exports = router

@@ -1,4 +1,5 @@
 const User = require('./User')
+const tokenManager = require('./token')
 
 class UserController {
     static listAll = async(req, res) => {
@@ -48,8 +49,15 @@ class UserController {
     }
 
     static login = async(req, res) => {
-        // TODO: Login logic
-        res.send()
+        try {
+            const token = tokenManager.create(req.user.id) // generates jwt token from user id
+    
+            res.set('Authorization', token)
+    
+            res.sendStatus(204)
+        } catch (error) {
+            res.status(500).send({ message: error.message })
+        }
     }
 }
 
