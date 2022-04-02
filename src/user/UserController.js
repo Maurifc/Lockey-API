@@ -1,7 +1,18 @@
 const User = require('./User')
 const tokenManager = require('./token')
 const UserNotFound = require('../errors/UserNotFound')
+const InvalidFieldError = require('../errors/InvalidFieldError')
 
+function checkIfValid(body){
+    if(!body.username ||
+        !body.password ||
+        !body.email
+    ){
+        throw new InvalidFieldError('Some field is empty or invalid')
+    }
+
+
+}
 class UserController {
     static listAll = async(req, res) => {
         const users = await User.find()
@@ -21,6 +32,10 @@ class UserController {
     static create = async (req, res, next) => {
         try {
             //TODO: check input
+            const body = req.body
+            checkIfValid(body)
+            checkIfValid(body)
+
             const user = new User(req.body)
             await user.save()
 
@@ -33,6 +48,8 @@ class UserController {
     static update = async(req, res, next) => {
         try {
             //TODO: check input
+            const body = req.body
+
             const user = await User.updateOne({ _id: req.params.id }, req.body)
 
             res.status(204).send()            

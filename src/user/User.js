@@ -3,15 +3,15 @@ const bcrypt = require('bcrypt')
 const SALT = 12
 
 const userSchema = new mongoose.Schema({
-    username: String,
-    password: String,
-    email: String
+    username: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
+    email: {type: String, required: true, unique: true}
 });
 
 userSchema.pre('save', function(next){
     var user = this
 
-    if(!user.isModified('password')) return next() // Only hashed password if it has changed
+    if(!user.isModified('password')) return next() // Only hashes password if it has changed
 
     bcrypt.genSalt(SALT, function(err, salt) {
         if(err) return next(err)
