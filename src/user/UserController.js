@@ -1,5 +1,6 @@
 const User = require('./User')
 const tokenManager = require('./token')
+const UserNotFound = require('../errors/UserNotFound')
 
 class UserController {
     static listAll = async(req, res) => {
@@ -8,43 +9,45 @@ class UserController {
         res.send(users)
     }
 
-    static getById = (req, res) => {
-        User.findOne({ _id: req.params.id }, (error, user) => {
-            if(!user)
-                return res.status(404).send()
-            
+    static getById = async(req, res, next) => {
+        try {
+            const user = await User.findOne({ _id: req.params.id })
             res.send(user)
-        })
+            } catch (error) {
+            next(error)    
+        }
     }
 
-    static create = async (req, res) => {
+    static create = async (req, res, next) => {
         try {
+            //TODO: check input
             const user = new User(req.body)
             await user.save()
 
             res.status(201).send()
         } catch (error) {
-            res.status(400).send({ message: error.message })
+            next(error)
         }
     }
 
-    static update = async(req, res) => {
+    static update = async(req, res, next) => {
         try {
+            //TODO: check input
             const user = await User.updateOne({ _id: req.params.id }, req.body)
 
             res.status(204).send()            
         } catch (error) {
-            res.status(400).send({ message: error.message })            
+            next(error)  
         }
     }
 
-    static delete = async(req, res) => {
+    static delete = async(req, res, next) => {
         try {
             await User.deleteOne({ _id: req.params.id })            
             
             res.sendStatus(204)
         } catch (error) {
-            res.status(400).send({ message: error.message })               
+            next(error)               
         }
     }
 
@@ -56,7 +59,7 @@ class UserController {
     
             res.sendStatus(204)
         } catch (error) {
-            res.status(500).send({ message: error.message })
+            next(error)
         }
     }
 }

@@ -4,6 +4,8 @@ const LocalStrategy = require('passport-local')
 const User = require('./User')
 const tokenManager = require('./token')
 
+// TODO: handle error throwed by passport
+
 passport.use(new LocalStrategy(async (username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
         if(err) return done(err) // use done(err) when an unexpected error occurs
