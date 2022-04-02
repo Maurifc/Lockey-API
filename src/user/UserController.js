@@ -45,7 +45,11 @@ class UserController {
         } catch (error) {
             res.status(400).send({ message: error.message })               
         }
+    }
 
+    static login = async(req, res) => {
+        // TODO: Login logic
+        res.send()
     }
 }
 
