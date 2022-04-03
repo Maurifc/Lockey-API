@@ -20,6 +20,15 @@ services:
     command: redis-server --save 60 1 --loglevel warning
     ports:
       - 6379:6379
+
+  vault:
+    image: vault
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+    ports:
+      - 8200:8200
+    cap_add:
+    - IPC_LOCK
     
 volumes:
   redis_data: {}

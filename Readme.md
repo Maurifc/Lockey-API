@@ -1,6 +1,6 @@
 # Lockey API
 
-**Project description:**
+## Project description
 
 API to facilitate teams to retrieve Vault secrets
 
@@ -11,8 +11,31 @@ Basic Features:
 - Basic roles: Dev and Operations
 - Audit Log
 
-Bonus Features:
+**Bonus Features**
 - Get Kubernetes credentials (Kubeconf)
-### References:
 
-<Paste links here>
+## Vault Instructions
+
+Export variables
+```bash
+export VAULT_ADDR=http://localhost:8200
+export VAULT_TOKEN=root
+```
+
+Check Vault Status
+```bash
+vault status
+```
+
+Create a sample secret
+```bash
+vault kv put /secret/myapp/conf username=admin password=awesomepass
+```
+
+Read content of secret you've just created 
+```bash
+vault kv get /secret/myapp/conf
+```
+
+### References:
+<https://www.vaultproject.io/docs/commands/kv>
