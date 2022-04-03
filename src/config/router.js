@@ -1,4 +1,5 @@
 const user = require('../user/routes')
+const secret = require('../secret/routes')
 
 function router(app) {
     app.get('/', (req, res) => {
@@ -6,7 +7,8 @@ function router(app) {
     })
 
     app.use(
-        user
+        user,
+        secret
     )
 
 }
