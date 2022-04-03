@@ -3,6 +3,8 @@ const tokenManager = require('./token')
 const UserNotFound = require('../errors/UserNotFound')
 const InvalidFieldError = require('../errors/InvalidFieldError')
 
+// TODO: Logout
+// TODO: Refresh Token
 function checkIfValid(body){
     if(!body.username ||
         !body.password ||
