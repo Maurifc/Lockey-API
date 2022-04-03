@@ -1,12 +1,26 @@
-const vault = require('../config/vault')
+const Secret = require('./Secret')
 
 class SecretController{
-    static getByPath(req, res) {
-        res.send('Reading secret from following path: ' + req.params[0])
+    static async getByPath(req, res, next) {
+        const secretPath = req.params[0] // Get url that comes after http://host/secret/*
+        try {
+            const secret = await Secret.get(secretPath)
+    
+            res.send(secret)            
+        } catch (error) {
+            error.message += ' - Path: ' + secretPath
+            next(error)         
+        }
     }
 
-    static list(req, res){
-        res.send('List all secrets')
+    static async list(req, res, next){
+        const pathToList = req.params[0] // Get url that comes after http://host/secret/*
+        try {
+            const list = await Secret.list(pathToList)
+            res.send(list)
+        } catch (error) {
+            next(error)
+        }
     }
 }
 
