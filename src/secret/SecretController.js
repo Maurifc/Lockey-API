@@ -1,4 +1,5 @@
 const Secret = require('./Secret')
+const audit = require('./audit')
 
 class SecretController{
     static async getByPath(req, res, next) {
@@ -6,7 +7,7 @@ class SecretController{
         try {
             const secret = await Secret.get(secretPath)
     
-            res.send(secret)            
+            audit(req.method, req.originalUrl, res.send())
         } catch (error) {
             error.message += ' - Path: ' + secretPath
             next(error)         
