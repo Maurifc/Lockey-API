@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const SecretController = require('./SecretController')
+const passport = require('passport')
 
 router
-    .get('/secret/*', SecretController.getByPath)
-    .get('/secret', SecretController.list)
+    .get('/secret/*', passport.authenticate('bearer', { session: false }), SecretController.getByPath)
+    .get('/secret', passport.authenticate('bearer', { session: false }), SecretController.list)
 
 module.exports = router

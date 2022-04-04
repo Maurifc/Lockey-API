@@ -23,9 +23,9 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     })
 }))
 
-passport.use( new BearerStrategy( (token, done) => {
+passport.use(new BearerStrategy( async(token, done) => {
     try {
-        const user = tokenManager.verify(token)
+        const user = await tokenManager.verify(token)
 
         if(!user)
             return done(null, false)

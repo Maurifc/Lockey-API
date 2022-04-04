@@ -30,10 +30,10 @@ module.exports = {
         return token
     },
 
-    verify: (token) => {
+    verify: async(token) => {
         const decodedPayload = jwt.verify(token, process.env.JWT_SECRET)
 
-        const user = User.findOne({ _id: decodedPayload.id })
+        const user = await User.findOne({ _id: decodedPayload.id })
         
         if(!user)
             throw new Error('Invalid Token')
