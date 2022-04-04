@@ -27,12 +27,14 @@ Check Vault Status
 vault status
 ```
 
-Create a sample secret
+Create some sample secrets
 ```bash
 vault kv put /secret/myapp/conf username=admin password=awesomepass
+vault kv put /secret/vms/vmprod user=sysadmin password=Awesom3P4ss
+vault kv put /secret/vms/vmdev user=dev password=12345678
 ```
 
-Read content of secret you've just created 
+Read content of a secret
 ```bash
 vault kv get /secret/myapp/conf
 ```
