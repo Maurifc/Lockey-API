@@ -2,8 +2,8 @@ const vault = require('../config/vault')
 
 class Secret{
     // TODO: return ttl too
-    static async get(path){
-        const secret = (await vault.read(path)).data.data
+    static async get(vaultToken, path){
+        const secret = (await vault.getInstance(vaultToken).read(path)).data.data
         return secret        
     }
 

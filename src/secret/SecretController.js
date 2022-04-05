@@ -5,7 +5,8 @@ class SecretController{
     static async getByPath(req, res, next) {
         const secretPath = req.params[0] // Get url that comes after http://host/secret/*
         try {
-            const secret = await Secret.get(secretPath)
+            const vaultToken = req.header('X-Vault-Token')
+            const secret = await Secret.get(vaultToken, secretPath)
     
             audit(req.method, req.originalUrl, req.user.username, res.send(secret))
         } catch (error) {
