@@ -7,7 +7,7 @@ class SecretController{
         try {
             const secret = await Secret.get(secretPath)
     
-            audit(req.method, req.originalUrl, req.user.username, res.send())
+            audit(req.method, req.originalUrl, req.user.username, res.send(secret))
         } catch (error) {
             error.message += ' - Path: ' + secretPath
             next(error)         
