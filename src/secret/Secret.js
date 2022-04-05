@@ -1,10 +1,17 @@
 const vault = require('../config/vault')
 
+function getSecretWithoutMetadata(secret){
+    return secret.data.data
+}
+
 class Secret{
     // TODO: return ttl too
     static async get(vaultToken, path){
-        const secret = (await vault.getInstance(vaultToken).read(path)).data.data
-        return secret        
+        const vaultInstance = vault.getInstance(vaultToken)
+        const rawSecret = await vaultInstance.read(path)
+        
+        const secretWithoutMetada = getSecretWithoutMetadata(rawSecret)
+        return secretWithoutMetada        
     }
 
     //TODO: Implement secret listing
