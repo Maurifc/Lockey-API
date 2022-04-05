@@ -1,7 +1,20 @@
 const vault = require('../config/vault')
 
 function getSecretWithoutMetadata(secret){
-    return secret.data.data
+    let newSecret = {}
+
+    if(secret.renewable)
+        newSecret = {
+            secret: secret.data,
+            leaseDuration: secret.lease_duration,
+        }
+    else
+        newSecret = {
+            secret: secret.data.data,
+            leaseDuration: secret.lease_duration,
+        }
+
+    return newSecret
 }
 
 class Secret{
