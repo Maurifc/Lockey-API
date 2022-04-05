@@ -39,5 +39,38 @@ Read content of a secret
 vault kv get /secret/myapp/conf
 ```
 
+## Setup Postgres Secret Engine
+Enable database secret engine
+```bash
+vault secrets enable database
+```
+
+Setup secret engine 
+```bash
+vault write database/config/myproject-db \
+        plugin_name=postgresql-database-plugin \
+        allowed_roles='*' \
+        connection_url="postgresql://{{username}}:{{password}}@192.168.49.1:5432/postgres?sslmode=disable" \
+        username=postgres \
+        password=postgres
+```
+
+Setup postgres role
+```bash
+vault write database/roles/myproject-db-dev \
+    db_name=myproject-db \
+    creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}' INHERIT; \
+                            GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO \"{{name}}\"; \
+                            GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO \"{{name}}\";" \
+    default_ttl="1h" \
+    max_ttl="24h"
+```
+
+Now you can get a postgres role/user
+```bash
+vault read database/creds/myproject-db-dev
+```
+
 ### References:
 <https://www.vaultproject.io/docs/commands/kv>
+<https://www.vaultproject.io/docs/secrets/databases/postgresql>
