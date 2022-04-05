@@ -1,5 +1,6 @@
 const JsonWebTokenError = require('jsonwebtoken').JsonWebTokenError
 const CastError = require('mongoose').CastError
+const audit = require('./secret/audit')
 
 module.exports = (error, req, res, next) => {
     let errorStatus = 500
@@ -24,6 +25,8 @@ module.exports = (error, req, res, next) => {
             break
     }
 
+    audit(req, errorStatus)
+    
     res.status(errorStatus).send({ message: message })
     next()
 }

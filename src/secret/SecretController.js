@@ -7,8 +7,9 @@ class SecretController{
         try {
             const vaultToken = req.header('X-Vault-Token')
             const secret = await Secret.get(vaultToken, secretPath)
-    
-            audit(req.method, req.originalUrl, req.user.username, res.send(secret))
+
+            audit(req, 200)
+            res.send(secret)
         } catch (error) {
             error.message += ' - Path: ' + secretPath
             next(error)         
