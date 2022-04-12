@@ -71,6 +71,12 @@ Now you can get a postgres role/user
 vault read database/creds/myproject-db-dev
 ```
 
+## Docker
+Build image
+```bash
+docker image build -t lockeyapi .
+```
+
 ### References:
 <https://www.vaultproject.io/docs/commands/kv>
 <https://www.vaultproject.io/docs/secrets/databases/postgresql>
